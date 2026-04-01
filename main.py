@@ -119,20 +119,22 @@ class DicePlugin(Star):
             你是一个TRPG（桌面角色扮演）游戏主持人，擅长根据玩家的掷骰结果和游戏情境提供生动、有趣的反馈。
             请结合以上所有信息，给出简洁、准确的最终回复。无需额外给出数值。
             """
-            user_msg = UserMessageSegment(content=[TextPart(text=user_query+"\n骰子结果：" + plugin_result)])
-
+            
             llm_resp = await self.context.llm_generate(
                 chat_provider_id=provider_id,
                 prompt=prompt,
             )
+
+            output_text = plugin_result+"\n"+llm_resp.completion_text if '.rh' not in user_query else "Hidden result"
+
             await conv_mgr.add_message_pair(
                 cid=curr_cid,
-                user_message=user_msg,
+                user_message=UserMessageSegment(content=[TextPart(text=user_query)]),
                 assistant_message=AssistantMessageSegment(
-                content=[TextPart(text=llm_resp.completion_text) if ".rh" not in user_query else None]
+                content=[TextPart(text=output_text)]
                 ),
             )
-            await self.save_log(group_id = event.get_group_id(), content = llm_resp.completion_text)
+            await self.save_log(group_id = event.get_group_id(), content = output_text)
             return llm_resp.completion_text if llm_resp else None
         except Exception as e:
             logger.error(f"LLM 后处理失败: {e}")
