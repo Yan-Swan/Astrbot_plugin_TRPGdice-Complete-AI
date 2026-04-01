@@ -7,11 +7,14 @@
 本插件是 [Astrbot_plugin_TRPGdice](https://github.com/WhiteEurya/Astrbot_plugin_TRPGdice) 的升级版。
 
 ## 魔改内容
+
 现在，ai可以自主评价掷骰结果，并将骰子的类型、结果，以及评价本身写入记忆和log。
 目前支持.r,.ra,.rab,.rap,.sc,.rh,.rv等功能。建议搭配人格使用。
+
 ---
 以下为原作者文档
 ---
+
 ## 更新日志 V2.2
 
 ```
