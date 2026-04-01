@@ -129,7 +129,7 @@ class DicePlugin(Star):
                 cid=curr_cid,
                 user_message=user_msg,
                 assistant_message=AssistantMessageSegment(
-                content=[TextPart(text=llm_resp.completion_text)]
+                content=[TextPart(text=llm_resp.completion_text) if ".rh" not in user_query else None]
                 ),
             )
             await self.save_log(group_id = event.get_group_id(), content = llm_resp.completion_text)
